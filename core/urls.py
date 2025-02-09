@@ -20,17 +20,16 @@ from home import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('home/', views.home, name='home'), 
-    # path('users',include('users.urls')),
-    # path('suppliers',include('suppliers.urls')),
-    # path('customers',include('cutomers.urls')),
-    # # path('product',include('product.urls')),
-    # # path('orders',include('orders.urls')),
+    path('', include('home.urls')),
+    path('users/', include('users.urls')),
+    path('suppliers/', include('suppliers.urls')),
+    path('customers/', include('customers.urls')),
+    path('product/', include('product.urls')),
+    path('orders/', include('orders.urls')), 
 
-
-    path('customers/api/',include('customers.api.urls')),
-    path('product/api/',include('product.api.urls')),
-    path('users/api/',include('users.api.urls')),
-    path('suppliers/api/',include('suppliers.api.urls')),
-    path('orders/api/',include('orders.api.urls')), 
+    path('customers/api/', include('customers.api.urls')),
+    path('product/api/', include('product.api.urls')),
+    path('users/api/', include('users.api.urls')),
+    path('suppliers/api/', include('suppliers.api.urls')),
+    path('orders/api/', include('orders.api.urls')),
 ]

@@ -1,0 +1,40 @@
+{% extends 'home/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Suppliers List</h2>
+    <a href="{% url 'suppliers_add' %}" class="btn btn-primary mb-3">Add New Supplier</a>
+
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Contact Info</th>
+                <th>Address</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for supplier in suppliers %}
+            <tr>
+                <td>{{ supplier.supplier_id }}</td>
+                <td>{{ supplier.name }}</td>
+                <td>{{ supplier.contact_info }}</td>
+                <td>{{ supplier.address }}</td>
+                <td>
+                    <span class="badge {% if supplier.is_active %}bg-success{% else %}bg-danger{% endif %}">
+                        {% if supplier.is_active %}Active{% else %}Inactive{% endif %}
+                    </span>
+                </td>
+                <td>
+                    <a href="{% url 'suppliers_update' supplier.pk %}" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="{% url 'suppliers_delete' supplier.pk %}" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -9,18 +9,18 @@ class OrderView(GenericAPIView):
     serializer_class = OrderSerializer
 
     def get(self, request):
-        orders = self.get_queryset()  # Fetch the queryset
-        serializer = self.get_serializer(orders, many=True)  # Pass the queryset, not the model class
-        return Response(serializer.data, status=status.HTTP_200_OK)  # Use 200 OK for GET requests
+        orders = self.get_queryset()  
+        serializer = self.get_serializer(orders, many=True)  
+        return Response(serializer.data, status=status.HTTP_200_OK)  
 
     def post(self, request):
-        serializer = self.get_serializer(data=request.data)  # Deserialize the incoming data
+        serializer = self.get_serializer(data=request.data) 
         if serializer.is_valid():
-            serializer.save()  # Save the new order to the database
+            serializer.save() 
             return Response({
                 "message": "Order added successfully"
-            }, status=status.HTTP_201_CREATED)  # Status 201 for resource creation
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)  # Handle validation errors
+            }, status=status.HTTP_201_CREATED)  
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)  
 
 class OrderRetrieveUpdateDestroy(RetrieveUpdateDestroyAPIView):
     queryset = Order.objects.all()

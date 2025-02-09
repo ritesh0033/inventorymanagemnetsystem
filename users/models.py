@@ -5,21 +5,17 @@ class Role(models.Model):
         ADMIN = 'admin', 'Admin'
         STAFF = 'staff', 'Staff'
         USER = 'user', 'User'
-
     role_name = models.CharField(max_length=100, choices=RoleChoices.choices, default=RoleChoices.USER)
     description = models.TextField(max_length=255, default='Default description', blank=True)
-
-
     def __str__(self):
         return self.role_name
 
 
 class User(models.Model):
-    
     name = models.CharField(max_length=100)
-    email = models.EmailField(max_length=100, default='', blank=True)
+    email = models.EmailField(max_length=100, default='', blank=True,unique=True)
     password = models.CharField(max_length=100)
-    role = models.ForeignKey(Role, on_delete=models.CASCADE, default=1)  # Set default Role (e.g., default=1)
+    role = models.ForeignKey(Role, on_delete=models.CASCADE, default=1) 
 
     def __str__(self):
         return self.name
