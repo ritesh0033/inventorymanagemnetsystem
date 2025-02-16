@@ -3,6 +3,6 @@ from .views import CustomerView, CustomerRetrieveUpdateDestroyAPIView
 
 urlpatterns = [
     
-    path('customers/', CustomerView.as_view(), name='customer-list-create-api'),
+    path('', CustomerView.as_view(), name='customer-list-create-api'),
     path('customers/<int:pk>/', CustomerRetrieveUpdateDestroyAPIView.as_view(), name='customer-retrieve-update-destroy-api'),
 ]

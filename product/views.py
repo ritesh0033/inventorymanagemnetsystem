@@ -3,10 +3,14 @@ from .models import Product
 from django.views.generic import UpdateView,DeleteView,CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import ProductForm
+from django.core.paginator import Paginator
 
 
 def products_list(request):
-    products = Product.objects.all()
+    product_list = Product.objects.all()
+    paginator = Paginator(product_list,25)
+    page_number = request.GET.get('page')
+    products = paginator.get_page(page_number)
     return render(request,'product/product_list.html',{'products':products})
 
 

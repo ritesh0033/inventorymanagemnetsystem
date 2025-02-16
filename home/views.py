@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from .forms import UserSignupForm
 from django.contrib.auth.hashers import make_password
+from orders.models import Order
+from django.db.models import Count
 
 def loginview(request):
     if request.method == "POST":
@@ -46,12 +48,25 @@ def signupview(request):
     return render(request, "home/signup.html", {"form": form})
 
 
-
 def dashboardview(request):
     if not request.user.is_authenticated or not request.user.is_superuser:
-        return redirect("login/login.html")  
+        return redirect("login") 
 
-    return render(request, "home/dashboard.html")
+    orders = Order.objects.all().order_by('-order_date')
+    status_count = {
+        'pending': Order.objects.filter(status=Order.OrderStatus.PENDING).count(),
+        'processing': Order.objects.filter(status=Order.OrderStatus.PROCESSING).count(),
+        'shipped': Order.objects.filter(status=Order.OrderStatus.SHIPPED).count(),
+        'delivered': Order.objects.filter(status=Order.OrderStatus.DELIVERED).count(),
+        'cancelled': Order.objects.filter(status=Order.OrderStatus.CANCELLED).count(),
+    }
+
+    context = {
+        'orders': orders,
+        'status_count': status_count,
+    }
+
+    return render(request, "home/dashboard.html", context)
 
 
 def logoutview(request):

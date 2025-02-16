@@ -4,9 +4,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import UpdateView, DeleteView, CreateView
 from .models import Order
 from .forms import OrdersForm
+from django.core.paginator import Paginator
 
 def order_list(request):
-    orders = Order.objects.all()
+    orders_list = Order.objects.all()
+    paginator = Paginator(orders_list,25)
+    page_number = request.GET.get('page')
+    orders = paginator.get_page(page_number)
+
     return render(request, 'orders/order_list.html', {'orders': orders})
 
 class OrderAdd(LoginRequiredMixin, CreateView):

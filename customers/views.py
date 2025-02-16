@@ -3,11 +3,16 @@ from .models import Customer
 from django.views.generic import UpdateView,DeleteView,CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import CustomerForm
+from django.core.paginator import Paginator
 
 
 def customers_list(request):
-    customers = Customer.objects.all()
-    return  render (request,'customers/customers_list.html',{'customers':customers})
+    customers_list = Customer.objects.all()
+    paginator = Paginator(customers_list,25)
+    page_number = request.GET.get('page')
+    customers = paginator.get_page(page_number)
+   
+    return render(request, 'customers/customers_list.html', {'customers': customers})
 
 
 class CustomerAdd(LoginRequiredMixin,CreateView):

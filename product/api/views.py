@@ -4,12 +4,15 @@ from product.models import Category, Product
 from .serializers import CategorySerializer, ProductSerializer
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.throttling import AnonRateThrottle,UserRateThrottle
 
-# Category CRUD API
+
 class CategoryView(GenericAPIView):
+    permission_classes = [IsAuthenticated]
+    throttle_classes = [UserRateThrottle]
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    # permission_classes = [IsAuthenticated]
+
 
     def get(self, request):
         categories = self.get_queryset()
@@ -27,15 +30,15 @@ class CategoryView(GenericAPIView):
 class CategoryRetrieveUpdateDestroy(RetrieveUpdateDestroyAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    permission_classes = [IsAuthenticated]
 
-    # permission_classes = [IsAuthenticated]
 
 
-# Product CRUD API
 class ProductView(GenericAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
+    throttle_classes = [UserRateThrottle]
 
     def get(self, request):
         products = self.get_queryset()
@@ -53,4 +56,4 @@ class ProductView(GenericAPIView):
 class ProductRetrieveUpdateDestroy(RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]

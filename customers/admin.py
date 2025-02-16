@@ -5,4 +5,4 @@ from djangoql.admin import DjangoQLSearchMixin
 @admin.register(Customer)
 
 class CustomerAdmin(DjangoQLSearchMixin,admin.ModelAdmin):
-    list_display = ['name'] 
+    list_display = ['name','customer_id'] 
